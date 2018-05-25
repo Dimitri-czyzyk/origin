@@ -1,0 +1,482 @@
+LESS(1)                                                                                  Manuel de l'utilisateur Linux                                                                                 LESS(1)
+       less - Contraire de more
+       less [-[+]aBcCdeEfFgGiIJmMnNqQrRsSuUVwWX~]
+            [-# décalage] [+[+]commande] [--] [nom-fichier]...
+       less  est un programme similaire à more(1), mais qui permet aussi bien des mouvements en arrière qu'en avant dans les fichiers. De plus, less ne doit pas lire entièrement le fichier d'entrée avant de
+       commencer, et démarre donc plus rapidement avec de grands fichiers d'entrée que des éditeurs de texte comme vi(1).  less utilise termcap (ou terminfo sur certains systèmes), et peut donc  être  lancé
+       depuis  un  grand nombre de terminaux. Il y a même un support limité pour les terminaux « hardcopy » (NdT : ???). (Sur un terminal de ce type, les lignes devant être affichées en haut de l'écran sont
+       Les commandes sont basées à la fois sur more et sur vi.  Elles peuvent être précédées par un nombre décimal, appelé N dans les descriptions ci-dessous. Ce nombre est utilisé par certaines  commandes,
+       Dans les descriptions suivantes, ^X signifie contrôle-X. ESC signifie l'appui sur la touche ESCAPE : par exemple, ESC-v signifie la séquence des deux caractères « ESCAPE » et « v ».
+       h ou H Aide : afficher un résumé des commandes. Si vous oubliez toutes les autres commandes, souvenez-vous de celle-ci.
+              Défiler  en avant de N lignes, ou d'un écran entier par défaut (voyez l'option -z en dessous). Si N est plus grand que la dimension de l'écran, seul l'écran final est affiché. Attention : cer‐
+              tains systèmes utilisent ^V comme un caractère spécial de « littéralisation ».
+       z      Comme ESPACE, mais N devient la nouvelle taille de fenêtre s'il est spécifié.
+              Défiler en avant de N lignes (1 par défaut). Les N lignes sont affichées en entier, même si N est plus grand que la taille de l'écran.
+              Défiler en avant de N lignes (par défaut la moitié de la taille de l'écran). Si N est spécifié, il devient la nouvelle valeur par défaut pour les commandes d et u ultérieures.
+              Défiler en arrière de N lignes (par défaut d'un écran ; voyez l'option -z ci-dessous). Si N est plus grand que la taille de l'écran, seul l'écran final est affiché.
+       w      Comme ESC-v, mais N devient la nouvelle taille de fenêtre s'il est spécifié.
+              Défiler en arrière de N lignes (1 par défaut). Les N lignes sont affichées en entier, même si N est plus grand que la taille de l'écran.  Attention : certains systèmes utilisent ^Y comme  car‐
+              actère spécial de contrôle des travaux.
+              Défiler en arrière de N lignes (par défaut d'un demi-écran). Si N est spécifié, il devient la nouvelle valeur par défaut pour les commandes d et u ultérieures.
+              Défiler  horizontalement  de  N caractères vers la droite, par défaut d'une demi-largeur d'écran (voyez l'option -#). Si un nombre N est spécifié, il devient la valeur par défaut des commandes
+              Défiler horizontalement de N caractères vers la gauche, par défaut d'une demi-largeur d'écran (voyez l'option -#). Si un nombre N est spécifié, il devient la valeur par  défaut  des  commandes
+       F      Défiler  en  avant,  et toujours essayer de lire même lorsque la fin de fichier a été atteinte. Normalement, cette commande ne devrait être utilisée que lorsque l'on se trouve déjà à la fin du
+              fichier. C'est une façon de surveiller la fin d'un fichier qui s'agrandit pendant qu'il est lu. (Ce comportement est similaire à celui de la commande « tail -f ».)
+       p ou % Aller à la position située à N % à l'intérieur du fichier. N devrait être compris entre 0 et 100.
+       {      Si une accolade gauche apparaît sur la ligne située tout en haut de l'écran, la commande { ira se positionner à l'accolade droite correspondante, qui sera placée sur la dernière ligne affichée
+              à l'écran.  S'il y a plus d'une accolade gauche sur la ligne du haut, un nombre N peut être utilisé pour spécifier sa N-ième occurrence sur la ligne.
+       }      Si une accolade droite apparaît sur la ligne située tout en bas de l'écran, la commande } ira se positionner à l'accolade gauche correspondante, qui sera placée sur la première ligne  affichée
+              à l'écran. S'il y a plus d'une accolade droite sur la ligne du haut, un nombre N peut être utilisé pour spécifier sa N-ième occurrence sur la ligne.
+       (      comme {, mais s'applique aux parenthèses plutôt qu'aux accolades.
+       )      comme }, mais s'applique aux parenthèses plutôt qu'aux accolades.
+       [      comme {, mais s'applique aux crochets plutôt qu'aux accolades.
+       ]      comme }, mais s'applique aux crochets plutôt qu'aux accolades.
+       ESC-^F Suivi  de  deux  caractères,  se comporte comme {, mais utilise ces deux caractères comme crochets d'ouverture et de fermeture respectivement. Par exemple, « ESC ^F < > » pourrait être utilisé
+              pour se rendre vers l'avant au > correspondant au < de la première ligne de l'écran affichée.
+       ESC-^B Suivi de deux caractères, se comporte comme }, mais utilise ces deux caractères comme crochets d'ouverture et de fermeture respectivement. Par exemple,  « ESC ^B < > »  pourrait  être  utilisé
+              pour se rendre vers l'arrière au > correspondant au < de la dernière ligne de l'écran affichée.
+              laquelle la dernière commande de mouvement « important » a été exécutée. Suivie par ^ ou $, se rendre au début ou à la fin du fichier respectivement. Les marques sont préservées quand un  nou‐
+              veau fichier est examiné, et la commande ' peut donc être utilisée pour passer d'un fichier d'entrée à un autre.
+              tir de la deuxième ligne affichée (mais vous pouvez modifier ce comportement ; voyez les options -a et -j).
+              Certains caractères ont une signification spéciale quand ils sont situés au début d'un motif ; ils modifient le type de recherche au lieu de faire partie du motif :
+                     Rechercher dans plusieurs fichiers, c.-à-d. que si la recherche atteint la FIN du fichier courant sans avoir trouvé de correspondance, elle se poursuit avec le  fichier  suivant  de  la
+                     liste donnée sur la ligne de commandes.
+                     Commencer  la  recherche  à  la  première ligne du PREMIER fichier situé dans la liste donnée sur la ligne de commandes, sans se soucier de ce qui est actuellement affiché à l'écran, ou
+                     encore des réglages des options -a ou -j.
+              ^K     Mettre en évidence tout morceau de texte qui correspond au motif sur l'écran actuel, mais ne pas se déplacer à la première correspondance (GARDER la position actuelle).
+              ^R     Ne pas interpréter les méta-caractères des expressions rationnelles, c.-à-d. effectuer une simple comparaison textuelle.
+       ?motif Rechercher en arrière dans le fichier la N-ième ligne contenant le motif. La recherche débute à partir de la ligne située juste avant la première ligne affichée.
+              Certains caractères ont une signification spéciale, comme pour la commande « / » :
+                     Rechercher dans plusieurs fichiers, c.-à-d. que si la recherche atteint le début du fichier courant sans avoir trouvé de correspondance, elle se poursuit avec le fichier précédent de la
+                     liste donnée sur la ligne de commandes.
+                     Commencer  la  recherche  à  la dernière ligne du dernier fichier situé dans la liste fournie sur la ligne de commandes, sans se soucier de ce qui est actuellement affiché à l'écran, ou
+                     encore des réglages des options -a ou -j.
+       n      Répéter la recherche précédente pour trouver la N-ième ligne contenant le dernier motif. Si la recherche précédente a été modifiée par ^N, la recherche est effectuée  pour  trouver  la  N-ième
+              ligne  ne contenant PAS le motif. Si la recherche précédente a été modifiée par ^E, la recherche continue dans le fichier suivant (ou précédent) si elle a échoué dans le fichier courant. Si la
+              recherche précédente a été modifiée par ^R, la recherche est effectuée sans utiliser d'expressions rationnelles. Il n'y a aucun effet si la recherche précédente a été modifiée par ^F ou ^K.
+       N      Répéter la recherche précédente, mais dans le sens inverse.
+       ESC-n  Répéter la recherche précédente en traversant les frontières des fichiers.  L'effet est identique à la modification de la recherche précédente par *.
+       ESC-N  Répéter la recherche précédente, mais dans le sens inverse, et en traversant les frontières des fichiers.
+       ESC-u  Changer l'état de mise en évidence lors d'une recherche. Désactive la mise en évidence des chaînes de caractères correspondant au motif de recherche courant. Si la mise en  évidence  est  déjà
+              désactivée  du  fait d'une commande ESC-u antérieure, elle est réactivée. (La mise en évidence peut également être désactivée en utilisant l'option -G ; dans ce cas, les commandes de recherche
+              Examiner un nouveau fichier. Si le nom de fichier n'est pas spécifié, le fichier « courant » (voyez les commandes :n et :p ci-dessous) de la liste des fichiers présents en ligne  de  commandes
+              est  réexaminé.  Un  signe  %  dans  le  nom de fichier est remplacé par le nom du fichier courant. Un signe # est remplacé par le nom du fichier précédemment examiné. Néanmoins, deux signes %
+              consécutifs sont simplement remplacés par un unique signe %. Cela vous permet d'entrer un nom de fichier contenant un signe % en son sein. De la même façon, deux signes # consécutifs sont rem‐
+              placés par un unique signe #. Le nom du fichier est inséré dans la liste des fichiers présents en ligne de commandes afin qu'il puisse être vu par des commandes :n et :p ultérieures. Si le nom
+              du fichier est constitué de plusieurs fichiers, ils sont insérés dans la liste des fichier et le premier d'entre eux est examiné. Si le nom du fichier contient une ou plusieurs espaces, le nom
+              du fichier entier doit être entièrement enfermé dans des guillemets (voyez également l'option -").
+              Comme :e. Attention : certains systèmes utilisent ^V comme un caractère spécial de littéralisation. Sur de tels systèmes, vous pourriez vous trouver dans l'impossibilité d'utiliser ^V.
+       :n     Examiner le fichier suivant (obtenu à partir de la liste des fichiers fournis sur la ligne de commandes). Si N est spécifié, le N-ième fichier suivant est examiné.
+       :p     Examiner le fichier précédent obtenu à partir de la liste des fichiers fournis sur la ligne de commandes. Si N est spécifié, le N-ième fichier précédent est examiné.
+       :x     Examiner le premier fichier de la liste fournie sur la ligne de commandes.  Si N est spécifié, le N-ième fichier de la liste est examiné.
+       :d     Supprimer le fichier courant de la liste des fichiers.
+       t      Aller à la marque (tag) suivante, s'il y avait plus d'une occurrence de la marque courante. Voyez l'option -t pour plus de détails sur les MARQUES.
+       T      Aller à la marque précédente, s'il y avait plus d'une occurrence de la marque courante.
+              Afficher des informations sur le fichier visualisé, y compris son nom ainsi que le numéro de ligne et le déplacement en octets par rapport au début du fichier de la dernière ligne affichée. Si
+              c'est possible, la longueur du fichier, son nombre de lignes et le pourcentage du fichier déjà visualisé sont également affichés.
+       -      Suivi par l'une des lettres d'option de ligne de commandes (voyez OPTIONS plus bas), modifie le comportement de cette option, et affiche un message décrivant  le  nouveau  réglage.  Si  un  ^P
+              (CONTRÔLE-P)  est  entré immédiatement après le tiret, le réglage de l'option est modifié mais aucun message n'est affiché. Si la lettre d'option utilise une valeur numérique (comme -b ou -h),
+              ou une valeur de type chaîne de caractères (comme -P ou -t), une nouvelle valeur peut être entrée après la lettre d'option. Si aucune valeur n'est  entrée,  un  message  décrivant  le  réglage
+       --     Comme  la commande « - », mais utilise un nom d'option long (voyez OPTIONS plus bas) plutôt qu'une simple lettre d'option. Vous devez appuyer sur ENTRÉE après avoir tapé le nom de l'option. Un
+              ^P suivant immédiatement le second tiret empêche l'affichage d'un message décrivant le nouveau réglage, comme pour la commande « - ».
+       -+     Suivi par l'une des lettres d'option de ligne de commandes, réinitialise l'option à son réglage par défaut et affiche un message décrivant le nouveau réglage. (La commande « -+X » fait la même
+              chose que « -+X » sur la ligne de commandes.)  Cela ne fonctionne pas pour les options utilisant des valeurs de type chaîne de caractères.
+       --+    Comme la commande « -+ », mais prend un nom d'option long plutôt qu'une lettre d'option unique.
+       -!     Suivi  par  l'une  des lettres d'option de ligne de commandes, réinitialise l'option à l'opposé de son réglage par défaut et affiche un message décrivant le nouveau réglage. Cela ne fonctionne
+              pas pour les options utilisant des valeurs numériques ou de type chaîne de caractères.
+       --!    Comme la commande « -! », mais prend un nom d'option long plutôt qu'une lettre d'option unique.
+       _      (Caractère de soulignement.)  Suivi par l'une des lettres d'option de ligne de commandes, affiche un message décrivant le réglage courant de cette option. Le réglage de cette option n'est  pas
+       __     (Double  caractère  de  soulignement.)  Comme  la commande « _ », mais prend un nom d'option long plutôt qu'une lettre d'option unique. Vous devez appuyer sur ENTRÉE après avoir tapé le nom de
+       +cmd   Exécuter la commande spécifiée à chaque fois qu'un nouveau fichier est examiné. Par exemple, +G indique à less d'afficher chaque fichier en commençant par la fin plutôt que par le début.
+       V      Affiche le numéro de version de less.
+       Les quatre commandes suivantes peuvent ou pas être valides, en fonction de votre installation :
+       v      Invoque un éditeur de texte pour éditer le fichier en cours de visualisation. L'éditeur est trouvé dans la variable d'environnement VISUAL si elle est définie, ou EDITOR sinon, ou est  supposé
+              être vi si aucune des deux variables d'environnement n'est définie. Voyez également la discussion sur LESSEDIT plus bas.
+       ! commande-shell
+              Invoque  un  shell  pour  exécuter  la  commande  shell  fournie.  Un signe % dans la commande est remplacé par le nom du fichier courant. Un signe dièse (#) est remplacé par le nom du fichier
+              précédemment examiné. « !! » répète la dernière commande shell. « ! » sans commande shell invoque simplement un shell. Sur les systèmes Unix, le shell est trouvé dans  la  variable  d'environ‐
+              nement SHELL, ou vaut sh par défaut. Sur les systèmes MS-DOS et OS/2, le shell est le processeur de commandes habituel.
+       | <m> commande-shell
+              où  <m>  représente  n'importe quelle lettre de marquage. Envoie une section du fichier d'entrée via un tube à la commande shell spécifiée. La section du fichier à envoyer via le tube est com‐
+              vaut « . » ou un saut de ligne, l'écran actuel est envoyé.
+       Les options de ligne de commandes sont décrites ci-dessous. Elles peuvent pour la plupart être modifiées pendant l'exécution de less via la commande « - ».
+       La  plupart des options peuvent être données dans deux formes différentes : soit un tiret suivi par une lettre unique, soit deux tirets suivis par un nom d'option long. Un nom d'option long peut être
+       abrégé pour autant qu'aucune ambiguïté n'en résulte. Par exemple, --quit-at-eof peut être abrégé en --quit, mais ce n'est pas le cas de --qui, puisque tant --quit-at-eof que  --quiet  commencent  par
+       --qui. Certains noms d'options longs sont en majuscule, comme --QUIT-AT-EOF, pour pouvoir le distinguer de --quit-at-eof. De tels noms d'options ne doivent avoir obligatoirement en majuscule que leur
+       Les options sont également trouvées dans la variable d'environnement « LESS ». Par exemple, pour éviter de devoir taper « less -options ... » à chaque fois que less est appelé,  vous  pouvez  dire  à
+       Sous MS-DOS, vous n'avez pas besoin des guillemets, mais vous devriez remplacer tout signe % dans la chaîne de caractères d'options par %%.
+       La variable d'environnement est analysée avant la ligne de commandes, de sorte que les options de ligne de commandes surchargent la variable d'environnement LESS. Si une option apparaît dans la vari‐
+       able LESS, elle peut être réinitialisée à sa valeur par défaut sur la ligne de commandes en faisant débuter l'option par « -+ ».
+       Pour les options comme -P ou -D prenant une chaîne de caractères comme argument, un signe dollar ($) doit être utilisé pour signaler la fin de la chaîne. Par exemple, pour spécifier deux  options  -D
+       sous MS-DOS, vous devez insérer un signe $ entre les deux, comme ceci :
+              Cette  option  affiche  un  résumé des commandes acceptées par less (comme la commande h). (Selon la façon dont votre shell interprète le point d'interrogation, il peut être nécessaire de sup‐
+              Débuter la recherche après la dernière ligne affichée à l'écran, passant ainsi toutes les lignes affichées à l'écran. Par défaut, la recherche débute à la deuxième ligne affichée à l'écran (ou
+              après la dernière ligne trouvée ; voyez l'option -j).
+              Spécifie la quantité de mémoire tampon que less utilisera pour chaque fichier, en unités de Ko (1024 octets). Par défaut, 64 Ko de mémoire tampon sont utilisés pour chaque fichier (à moins que
+              celui-ci ne provienne d'un tube ; voyez l'option -B). L'option -b spécifie au lieu de cela que n Ko de mémoire tampon devraient être utilisés pour chaque fichier. Si n vaut -1, la mémoire tam‐
+              Par  défaut,  quand  des données sont lues à partir d'un tube, les tampons sont alloués automatiquement quand c'est nécessaire. Si une grande quantité de données est lue à partie du tube, cela
+              peut entraîner une grande consommation mémoire. L'option -B désactive cette allocation automatique afin que seuls 64 Ko (ou la quantité spécifiée avec l'option  -b)  soient  utilisés  pour  le
+              tube. Attention : l'utilisation de -B peut provoquer un affichage erroné, puisque seule la partie du fichier la plus récemment visualisée est gardée en mémoire ; toutes les données antérieures
+              Rafraîchir l'écran du haut vers le bas. Par défaut, les rafraîchissements sont effectués de bas en haut.
+              L'option -C est identique à -c, mis à part que l'écran est effacé avant d'être rafraîchi.
+              L'option -d supprime le message d'erreur habituellement affiché quand le terminal est stupide (c.-à-d. s'il ne dispose pas de certaines capacités importantes, comme la faculté d'effacement  de
+              l'écran ou le défilement arrière). L'option -d ne modifie en aucune autre façon le comportement de less sur un terminal stupide.
+              [MS-DOS  uniquement]  Fixe  la couleur du texte affiché. x est un caractère unique qui sélectionne le type du texte dont la couleur est définie : n=normal, s=standout (mis en évidence), d=bold
+              (gras), u=underlined (souligné), k=blink (clignotant). couleur est un couple de nombres séparés par un point. Le premier nombre sélectionne la couleur d'avant-plan, et  le  second  la  couleur
+              Provoque l'arrêt automatique de less la deuxième fois qu'il atteint la fin du fichier. Par défaut, la seule façon de quitter less est d'utiliser la commande « q ».
+              Provoque l'arrêt automatique de less la première fois qu'il atteint la fin du fichier.
+              Force l'ouverture des fichiers non réguliers. (Un fichier non régulier est un répertoire ou un fichier spécial de périphérique.)  Supprime également le message d'avertissement produit quand un
+              Provoque l'arrêt automatique de less si le fichier entier peut être affiché sur le premier écran.
+              Normalement, less mettra en évidence TOUTES les chaînes de caractères qui conviennent à la dernière commande de recherche. L'option -g modifie ce comportement pour ne mettre en évidence que la
+              chaîne de caractères particulière qui a été trouvée en dernier lieu par la dernière commande de recherche. Ceci peut permettre à less de s'exécuter un peu plus rapidement qu'à l'habitude.
+              L'option -G supprime toute mise en évidence des chaînes de caractères trouvées par des commandes de recherche.
+              Spécifie  un  nombre maximal de lignes lors d'un défilement arrière. S'il est nécessaire de défiler en arrière de plus de n lignes, l'écran est repeint vers l'avant à la place. (Si le terminal
+              ne dispose pas de la capacité de défilement arrière, -h0 est utilisé.)
+              Indiquer une recherche insensible à la casse, c.-à-d. que les lettres minuscules et majuscules sont considérées être identiques. Cette  option  est  ignorée  si  la  moindre  lettre  majuscule
+              apparaît dans le motif. En d'autres termes, si un motif contient des lettres majuscules, alors la recherche n'ignorera pas la casse.
+              Comme -i, mais la recherche ignore la casse même si le motif contient des lettres majuscules.
+              Spécifie une ligne de l'écran où la ligne « cible » sera positionnée. Une ligne cible est une ligne qui fait l'objet d'une recherche de texte, d'une recherche de marques (tags), d'un saut vers
+              un numéro de ligne ou vers un pourcentage du fichier, ou encore d'un saut vers une position marquée. La ligne d'écran est spécifiée par un nombre : la première ligne affichée à  l'écran  porte
+              le  numéro  1,  la  suivante  le 2, etc. Le nombre peut être négatif pour spécifier une position de ligne relative au bas de l'écran : la ligne tout en bas de l'écran porte le numéro -1, celle
+              juste avant le numéro -2, et ainsi de suite. Si l'option -j est utilisée, la recherche commence à la ligne suivant immédiatement la ligne cible. Par exemple, si « -j4 » est utilisé,  la  ligne
+              cible est la quatrième ligne de l'écran, et la recherche débute par conséquent à la cinquième ligne de l'écran.
+              Affiche  une  colonne de statut sur le bord gauche de l'écran. La colonne de statut affiche les lignes qui convenaient à la recherche courante. Elle est également utilisée si l'option -w ou -W
+              Ouvrir et interpréter le fichier nommé comme un fichier lesskey(1) (fichier de touches de less). Plusieurs options -k peuvent être  spécifiées.   Si  la  variable  d'environnement  LESSKEY  ou
+              LESSKEY_SYSTEM est définie, ou si un fichier de touches de less est trouvé dans un endroit standard (voyez LIAISONS DE TOUCHES), cet élément sera également utilisé comme un fichier lesskey.
+              Indique à less d'afficher une invite verbeuse (comme more), avec le pourcentage du fichier parcouru. Par défaut, less possède une invite formée uniquement de « : ».
+              Supprimer  les  numéros de ligne. Le comportement par défaut (utiliser les numéros de ligne) peut ralentir less dans certains cas, en particulier avec un grand fichier d'entrée. La suppression
+              des numéros de ligne avec l'option -n évitera ce problème.  L'utilisation de numéros de ligne signifie que le numéro de ligne sera affiché dans l'invite  verbeuse  ainsi  qu'avec  la  commande
+              « = », et que la commande v passera le numéro de ligne courant à l'éditeur (voyez la discussion sur LESSEDIT dans INVITES plus bas).
+              Afficher un numéro de ligne au début de chaque ligne affichée.
+              Indique à less de copier son entrée dans le fichier nom-fichier pendant la lecture. Cela ne s'applique que lorsque le fichier d'entrée est un tube, et pas quand il est un fichier ordinaire. Si
+              le fichier existe déjà, less demandera une confirmation avant de l'écraser.
+              Comme -o, mais tout fichier existant sera écrasé sans demander de confirmation.
+              Si aucun fichier journal (logfile) n'a été spécifié, les options -o et -O peuvent être utilisées à partir de less pour spécifier un fichier journal. Sans nom  de  fichier,  elles  rapporteront
+              uniquement le nom du fichier journal. La commande « s » est équivalente à la spécification de l'option -o depuis less.
+              L'option -p sur la ligne de commandes est équivalente à la spécification de +/motif, c.-à-d. qu'elle indique à less de débuter à la première occurrence de motif dans le fichier.
+              Fournit  un  moyen  de  personnaliser les trois styles d'invite. Cette option devrait normalement être placée dans la variable d'environnement LESS, plutôt que de devoir être tapée pour chaque
+              commande less.  Une telle option doit soit être la dernière option dans la variable LESS, soit être terminée par un signe $. -Ps suivi d'une chaîne de caractères remplace l'invite (courte) par
+              défaut  par  cette chaîne de caractères. -Pm modifie l'invite moyenne (-m). -PM modifie l'invite longue (-M). -Ph modifie l'invite de l'écran d'aide. -P= modifie le message affiché par la com‐
+              mande =. -Pw modifie le message affiché en cas d'attente de données (dans la commande F). Toutes les chaînes de caractères d'invite sont constituées d'une séquence de lettres et  de  séquences
+              d'échappement spéciales. Voyez la section sur les INVITES pour plus de détails.
+              Provoque  une  opération  modérément « calme » : la sonnette du terminal ne retentit pas si on essaie de passer la fin ou le début du fichier. Si le terminal dispose d'une « alarme visuelle »,
+              elle sera utilisée à la place. La sonnette retentira pour certaines autres erreurs, comme l'entrée d'un caractère invalide (comportement par défaut).
+              Provoque l'affichage des caractères de contrôle « bruts ». Le comportement par défaut est d'afficher les caractères de contrôle en utilisant la notation circonflexe ; par  exemple,  un  Ctrl-A
+              (caractère  octal  001)  est affiché comme « ^A ». Attention : quand l'option -r est utilisée, less ne peut garder une trace de l'apparence actuelle de l'écran (puisque cela dépend de la façon
+              dont l'écran répond à chaque type de caractère de contrôle). Différents problèmes d'affichage peuvent donc survenir, comme des longues lignes coupées aux mauvais endroits.
+              Comme -r, mais essaie de garder la trace de l'apparence de l'écran quand c'est possible. Cela ne fonctionne que si l'entrée est constituée  de  texte  normal  et  éventuellement  de  séquences
+              d'échappement de couleurs ANSI, qui sont des séquences de la forme
+              où  les  « ... » représentent 0 ou plusieurs caractères différents de « m ». Pour garder une trace de l'apparence de l'écran, tous les caractères de contrôle et toutes les séquences d'échappe‐
+              ment de couleurs ANSI sont supposés ne pas déplacer le curseur. Vous pouvez faire croire à less que des caractères différents de « m » peuvent terminer les séquences d'échappement de  couleurs
+              ANSI en donnant pour valeur à la variable d'environnement LESSANSIENDCHARS la liste des caractères pouvant terminer une séquence d'échappement de couleur.
+              Convertir les lignes blanches consécutives en une seule ligne blanche. C'est utile lors de la visualisation d'une sortie nroff.
+              Couper  les lignes plus grandes que la largeur de l'écran au lieu de les « plier », c.-à-d. que le reste d'une longue ligne est simplement supprimé. Le comportement par défaut est de plier les
+              longues lignes, c.-à-d. d'afficher le reste de la ligne sur la ligne suivante.
+              L'option -t, immédiatement suivie par une marque, éditera le fichier contenant cette marque. Pour que cela fonctionne, des informations sur les marques doivent être disponibles ; par  exemple,
+              il  peut  y  avoir un fichier dans le répertoire courant appelé « tags », qui a été construit au préalable par une commande ctags(1) ou une commande équivalente. Si la variable d'environnement
+              LESSGLOBALTAGS est définie, elle indique le nom  d'une  commande  compatible  avec  global(1),  et  cette  commande  est  exécutée  pour  trouver  la  marque.  (Voyez  http://www.gnu.org/soft‐
+              ware/global/global.html).  L'option  -t  peut  également être spécifiée depuis less (en utilisant la commande « - ») comme un moyen d'examiner un nouveau fichier. La commande « :t » équivaut à
+              spécifier -t depuis less.
+              Spécifie un fichier de marques à utiliser au lieu de « tags ».
+       -u ou --underline-special
+              Traiter les effacements arrière et les retours chariot comme des caractères affichables, c.-à-d. qu'ils sont envoyés sur le terminal quand ils apparaissent en entrée.
+              Traiter les effacements arrière, les tabulations et les retours chariot comme des caractères de contrôle, c.-à-d. qu'ils sont traités comme s'ils étaient spécifiés par l'option -r.
+              Par défaut, si ni -u ni -U n'est fourni, les effacements arrière adjacents à un caractère de soulignement sont traités spécialement : le texte souligné est affiché en utilisant  les  capacités
+              matérielles  de  soulignement  du  terminal. De plus, les effacements arrière apparaissant entre deux caractères identiques sont traités spécialement : le texte en surimpression est affiché en
+              utilisant les capacités matérielles de mise en gras du terminal. Les autres caractères d'effacement arrière sont supprimés, en même temps que le caractère précédent. Les retours chariot  suiv‐
+              ant  immédiatement  un saut de ligne sont effacés ; les autres sont traités comme spécifié par l'option -r. Le texte en surimpression ou souligné peut faire l'objet d'une recherche si ni -u ni
+              Afficher le numéro de version de less.
+              Mettre en évidence temporairement la première « nouvelle » ligne après un mouvement en avant d'une page complète. La première « nouvelle » ligne est la ligne suivant immédiatement la ligne qui
+              était  auparavant tout en bas de l'écran. Mettre également en évidence la ligne cible après une commande g ou p. La mise en évidence est supprimée à la prochaine commande qui produit un mouve‐
+              ment. La ligne entière est mise en évidence, à moins que l'option -J ne soit utilisée, auquel cas seule la colonne de statut est mise en évidence.
+              Comme -w, mais mettre en évidence temporairement la première nouvelle ligne après chaque commande de mouvement en avant de plus d'une ligne.
+              Définir les taquets de tabulation. Si un seul n est spécifié, les taquets de tabulation sont placés aux multiples de n. Si plusieurs valeurs séparées par  des  virgules  sont  spécifiées,  les
+              taquets  de  tabulation sont placés à ces positions, et le sont par la suite avec une périodicité égale à l'espacement séparant les deux derniers taquets spécifiés. Par exemple, -x9,17 placera
+              les taquets de tabulation aux positions 9, 17, 25, 33, etc. n vaut 8 par défaut.
+              Désactiver l'envoi de chaînes d'initialisation et de dés-initialisation termcap au terminal. C'est quelquefois souhaitable si la chaîne de caractères de dés-initialisation fait  quelque  chose
+              Désactiver l'envoi de chaînes d'initialisation et de dés-initialisation du pavé numérique au terminal. C'est parfois utile si ces chaînes induisent un comportement inadéquat du pavé numérique.
+              Spécifier le nombre maximum de lignes d'un défilement avant. S'il est nécessaire de défiler en avant de plus de n lignes, l'écran est rafraîchi à la place. L'option -c ou -C peut être utilisée
+              Fixer la taille de la fenêtre de défilement par défaut à n lignes (un écran par défaut). Les commandes z et w peuvent également être utilisées pour modifier la taille de fenêtre. Le « z » peut
+              être  omis  pour  assurer  la  compatibilité  avec  more.  Si le nombre n est négatif, il indique n lignes de moins que la taille actuelle de l'écran. Par exemple, si l'écran est composé de 24
+              lignes, -z-4 fixe la taille de la fenêtre de défilement à 20 lignes. Si l'écran est redimensionné à 40 lignes, la taille de la fenêtre de défilement sera automatiquement ajustée à 36 lignes.
+              Changer de caractère de protection des noms de fichiers. Cela peut être nécessaire si vous essayez d'utiliser un fichier dont le nom contient à la fois des espaces et des caractères de protec‐
+              tion. Suivi par un caractère unique, cela fixe le caractère de protection à ce caractère. Les noms de fichiers contenant des espaces devraient être entourés par ce caractère plutôt que par des
+              guillemets. Suivi par deux caractères, cela remplace le caractère de protection d'ouverture par le premier caractère, et le caractère de protection de fermeture par  le  second.  Les  noms  de
+              fichiers  contenant des espaces doivent être précédés par le caractère de protection d'ouverture, et être suivis par le caractère de protection de fermeture.  Notez que même après que les car‐
+              actères de protection aient été modifiés, cette option reste « -" » (un tiret suivi de guillemets).
+       -~ ou --tilde
+              Normalement, les lignes situées après la fin du fichier sont affichés comme un simple tilde (~). Cette option fait afficher les lignes suivant la fin du fichier comme des lignes blanches.
+              Spécifier que les commandes FLÈCHEDROITE et FLÈCHEGAUCHE font défiler horizontalement de ce nombre de positions par défaut. Si le nombre spécifié est zéro, fixe  le  nombre  de  positions  par
+              défaut à la moitié de la largeur de l'écran.
+       --     L'argument  de  ligne de commandes « -- » marque la fin des arguments options. Tout argument ultérieur est interprété comme un nom de fichier. Cela peut être utile pour visualiser des fichiers
+       +      Si une option de ligne de commandes commence par +, le reste de cette option est utilisé comme commande initiale pour less.  Par exemple, +G indique à less de  débuter  à  la  fin  du  fichier
+              plutôt  qu'à  son  début,  et +/xyz lui indique de débuter à la première occurrence de « xyz » dans le fichier. Exception : +<nombre> agit comme +<nombre>g, c.-à-d. qu'il débute l'affichage au
+              numéro de ligne spécifié (voyez néanmoins l'avertissement présenté sous la commande « g » au dessus). Si l'option commence par ++, la commande initiale s'applique à chaque  fichier  visualisé,
+              et non pas seulement au premier. La commande + décrite précédemment peut également être utilisée pour définir (ou modifier) une commande initiale pour chaque fichier.
+       Lors  de  l'entrée d'une ligne de commandes en bas de l'écran (par exemple un nom de fichier pour la commande :e, ou le motif pour une commande de recherche), certaines touches peuvent être utilisées
+       pour manipuler la ligne de commandes. La plupart des commandes ont une forme alternative entre [ crochets ] qui peut être utilisée si une touche n'existe pas sur un clavier particulier.  (Les  formes
+       entre  crochets  ne fonctionnent pas dans la version MS-DOS.)  Chacune de ces touches spéciales peut être entrée littéralement en la précédant par le caractère « littéral », qui est soit ^V, soit ^A.
+       Un backslash peut lui-même être entré littéralement en entrant deux backslashs.
+              Déplacer le curseur au début de la ligne.
+              Déplacer le curseur à la fin de la ligne.
+              Effacer le caractère situé à la gauche du curseur, ou annuler la commande si la ligne de commandes est vide.
+              Récupérer la ligne de commandes précédente.
+              Récupérer la ligne de commandes suivante.
+       TAB    Compléter le nom de fichier partiel situé à gauche du curseur. S'il correspond à plus d'un nom de fichier, la première correspondance est placée sur la ligne de commandes. Des  appuis  répétés
+              sur  la touche TAB cycleront entre les autres noms de fichiers correspondant. Si le nom de fichier complété est un répertoire, un « / » est ajouté à la fin du nom du fichier. (Sur les systèmes
+              MS-DOS, un « \ » est concaténé.)  La variable d'environnement LESSSEPARATOR peut être utilisée pour spécifier un caractère différent à ajouter à la fin d'un nom de répertoire.
+       ^L     Compléter le nom de fichier partiel situé à gauche du curseur. S'il correspond à plus d'un nom de fichier, toutes les correspondances sont entrées en ligne de commandes (si elles  sont  appro‐
+              Supprimer  la  ligne de commandes en entier, ou annuler la commande si la ligne de commandes est vide. Si vous avez modifié le caractère de suppression de ligne (line-kill) de Unix en un autre
+              caractère que ^U, ce caractère est utilisé au lieu de ^U.
+       Vous pouvez définir vos propres commandes less en utilisant le programme lesskey(1) pour créer un fichier de touches de less (NdT : fichier lesskey). Ce fichier spécifie un  ensemble  de  touches  de
+       commandes  et l'action qui est associée à chacune d'entre elles. Vous pouvez également utiliser lesskey pour modifier les touches d'édition de ligne (voir ÉDITION DE LIGNES), et définir les variables
+       de  « $HOME/.less » ; sur les systèmes MS-DOS et Windows, c'est « $HOME/_less ». En cas d'échec, less recherche un fichier lesskey appelé « _less » dans tous les répertoires spécifiés par la variable
+       par la variable d'environnement INIT ; s'il n'est toujours pas trouvé, less examine la variable d'environnement PATH. Voyez la page de manuel de lesskey pour plus de détails.
+       Un  fichier  de  touches de less global peut également être créé pour fournir des liaisons de touches. Si une touche est définie à la fois dans un fichier lesskey local et dans le fichier global, les
+       liaisons de touches du fichier local ont priorité sur celles du fichier global. Si la variable d'environnement LESSKEY_SYSTEM est définie, less l'utilisera comme nom du fichier lesskey global. Sinon,
+       less  recherche  le  fichier  global  dans  un  endroit standard. Sur les systèmes Unix, ce fichier est /usr/local/etc/sysless. (Néanmoins, si less a été construit avec un répertoire de configuration
+       système différent de /usr/local/etc, ce répertoire sera celui où le fichier sysless est trouvé.)  Sur les systèmes MS-DOS et Windows, le fichier lesskey global  est  c:\_sysless ;  sur  les  systèmes
+       OS/2, il s'agit de c:\sysless.ini.
+       Vous  pouvez  définir un « préprocesseur d'entrée » pour less.  Avant que less n'ouvre un fichier, il donne d'abord la possibilité au préprocesseur de modifier la façon dont le contenu du fichier est
+       affiché. Un préprocesseur d'entrée n'est qu'un programme exécutable (ou un script shell), qui écrit le contenu du fichier dans un fichier différent, appelé fichier  de  remplacement.  Le  contenu  du
+       fichier  de  remplacement est ensuite affiché au lieu du contenu du fichier original. Néanmoins, l'utilisateur aura l'impression que le fichier original est ouvert, parce que less affichera le nom du
+       Un préprocesseur d'entrée reçoit de l'utilisateur un argument en ligne de commandes : le nom du fichier original. Il doit créer le fichier de remplacement et, quand il a  fini,  afficher  le  nom  du
+       fichier  de remplacement sur sa sortie standard. Si le préprocesseur d'entrée ne produit pas de nom de fichier de remplacement, less utilisera le fichier original. Le préprocesseur d'entrée n'est pas
+       appelé pendant la visualisation de l'entrée standard. Pour établir un préprocesseur d'entrée, définissez la variable d'environnement LESSOPEN en une ligne de commandes  qui  invoquera  votre  prépro‐
+       cesseur  d'entrée.  Cette ligne de commandes devrait inclure une occurrence de la chaîne de caractères « %s », qui sera remplacée par le nom du fichier quand la commande du préprocesseur d'entrée est
+       Quand less ferme un fichier ouvert de cette façon, il appelle un autre programme, appelé le postprocesseur d'entrée, qui peut effectuer n'importe quelle action de nettoyage (comme  p.ex.  effacer  le
+       fichier  de  remplacement  créé par LESSOPEN). Ce programme reçoit deux arguments en ligne de commandes, à savoir le nom du fichier original entré par l'utilisateur, et le nom du fichier de remplace‐
+       ment. Pour établir un postprocesseur d'entrée, définissez la variable d'environnement LESSOPEN en une ligne de commandes qui invoquera votre postprocesseur d'entrée. Elle  peut  inclure  deux  occur‐
+       rences de la chaîne de caractères « %s », la première étant remplacée par le nom du fichier original, et la seconde par le nom du fichier de remplacement, qui a été produit par LESSOPEN.
+       Par exemple, sur de nombreux systèmes Unix, ces deux scripts vous permettront de conserver des fichiers dans un format compressé, mais de néanmoins les faire lire directement par less :
+            *.Z) uncompress -c $1  >/tmp/less.$$  2>/dev/null
+       plexes peuvent être écrits pour accepter d'autres types de fichiers compressés, etc.
+       Il est également possible d'établir un préprocesseur d'entrée pour envoyer directement les données du fichier à less via un tube, plutôt que de placer les données dans  un  fichier  de  remplacement.
+       Cela  évite de décompresser le fichier en entier avant de commencer à le lire. Un préprocesseur d'entrée fonctionnant de cette façon est appelé un tube d'entrée. Un tube d'entrée, au lieu d'écrire le
+       nom d'un fichier de remplacement sur sa sortie standard, y écrit plutôt son contenu.  Si le tube d'entrée n'écrit aucun caractère sur sa sortie standard, alors il n'y a pas de fichier de remplacement
+       et  less  utilise  le  fichier  original, comme il le fait dans le cas normal. Pour utiliser un tube d'entrée, donnez au premier caractère de la variable d'environnement LESSOPEN la valeur « | » pour
+       Par exemple, sur de nombreux systèmes Unix, ce script fonctionnera comme les scripts d'exemple précédents :
+            *.Z) uncompress -c $1  2>/dev/null
+       n'est en général pas nécessaire puisqu'il n'y a aucun fichier de remplacement à nettoyer. Dans ce cas, le nom du fichier de remplacement passé au postprocesseur LESSCLOSE est « - ».
+       Il y a trois types de caractères dans le fichier d'entrée :
+       caractères de contrôle
+              ne devraient pas être affichés directement, mais peuvent être trouvés dans des fichiers texte ordinaires (comme le retour arrière ou la tabulation).
+              ne devraient pas être affichés directement et ne se sont en général pas présents dans les fichiers texte.
+       Un  « jeu  de  caractères » décrit simplement quels caractères sont considérés comme normaux, de contrôle, ou binaires. La variable d'environnement LESSCHARSET peut être utilisée pour sélectionner un
+       jeu de caractères. Les valeurs possibles pour LESSCHARSET sont :
+       ascii  BS (effacement arrière), TAB, NL (saut de ligne), CR (retour chariot), et FF (saut de page) sont des caractères de contrôle, tous les caractères de valeur comprise entre 32 et  126  sont  nor‐
+              Sélectionner un jeu de caractères ISO 8859. Il est identique à ASCII, sauf que les caractères entre 160 et 255 sont traités comme des caractères normaux.
+       dos    Sélectionne un jeu de caractères convenant au MS-DOS.
+       ebcdic Sélectionne un jeu de caractères EBCDIC.
+              Sélectionne  un jeu de caractères EBCDIC utilisé par les Services Unix de OS/390. C'est l'analogue EBCDIC de latin1. Vous obtenez des résultats similaires en spécifiant LESSCHARSET=IBM-1047 ou
+       koi8-r Sélectionner un jeu de caractères russe.
+       next   Sélectionner un jeu de caractères convenant aux ordinateurs NeXT.
+       utf-8  Sélectionner l'encodage UTF-8 du jeu de caractères ISO 10646.
+       Dans des cas spéciaux, il peut être souhaitable de personnaliser less pour utiliser un autre jeu de caractères que ceux définis par LESSCHARSET. Dans ce cas, la variable  d'environnement  LESSCHARDEF
+       peut  être  utilisée pour définir un jeu de caractères. Sa valeur devrait être une chaîne de caractères dont chacun des membres représente l'un des caractères du jeu de caractères. Le caractère « . »
+       actère  0 est binaire, que les caractères 1 à 3 sont de contrôle, que ceux de 4 à 7 sont binaires, et que le huitième est normal. Tous les caractères ultérieurs sont considérés avoir le même type que
+       le dernier, de sorte que les caractères 9 à 255 seraient normaux. (Ceci n'est qu'un exemple, et ne représente pas nécessairement un jeu de caractères réel.)
+       Cette table montre la valeur de LESSCHARDEF qui est équivalente à chacune des valeurs possibles pour LESSCHARSET :
+       Si ni LESSCHARSET ni LESSCHARDEF n'est définie, mais que la chaîne « UTF-8 » est trouvée dans la variable d'environnement LC_ALL, LC_CTYPE ou LANG, alors le jeu de caractères par défaut est utf-8.
+       Si cette chaîne n'est pas trouvée, mais que votre système supporte l'interface setlocale, less l'utilisera pour déterminer le jeu de caractères. setlocale est  contrôlé  en  définissant  la  variable
+       Finalement, si l'interface setlocale n'est pas non plus disponible, le jeu de caractères par défaut est latin1.
+       Les  caractères  binaires et de contrôle sont mis en évidence (vidéo inverse). Chaque caractère de ce type est affiché dans la notation circonflexe si c'est possible (p.ex. ^A pour contrôle-A). Cette
+       notation n'est utilisée que si l'inversion du bit 0100 résulte en un caractère affichable normal. Sinon, le caractère est affiché comme un nombre hexadécimal entre des crochets. Ce format  peut  être
+       nifie gras, « *u » signifie souligné, « *s » signifie mis en évidence, et « *n » est normal. Si LESSBINFMT ne commence pas par « * », on suppose l'utilisation de l'attribut normal. Le reste de  LESS‐
+       BINFMT  est  une  chaîne de caractères qui peut inclure une séquence d'échappement de style printf (un % suivi de x, X, o, d, etc.). Par exemple, si LESSBINFMT est « *u[%x] », les caractères binaires
+       sont affichés en hexadécimal souligné entouré de crochets. Le format par défaut si aucun LESSBINFMT n'est spécifié est « *s<%X> ».
+       L'option -P vous permet de personnaliser l'invite. La chaîne de caractères donnée à l'option -P remplace la chaîne d'invite spécifiée. Certains caractères de la chaîne sont interprétés  spécialement.
+       Le mécanisme d'invite est plutôt compliqué afin de fournir une certaine flexibilité, mais l'utilisateur ordinaire n'a pas besoin de connaître tous les détails de la construction d'une chaîne d'invite
+       Un signe pour-cent (%) suivi d'un caractère est développé en fonction de la valeur de ce caractère :
+              caractère  est  un  « t »,  le décalage en octets de la ligne située en haut de l'écran est employé, un « m » signifie l'utilisation de la ligne du milieu, un « b » signifie la ligne du bas de
+              l'écran, un « B » signifie l'utilisation de la ligne située juste en dessous de la ligne du bas de l'écran, et un « j » signifie  l'utilisation  de  la  ligne  « cible »,  comme  spécifié  par
+       %c     Remplacé par le numéro de colonne du texte apparaissant sur la première colonne de l'écran.
+       %dX    Remplacé par le numéro de page d'une ligne du fichier d'entrée. La ligne à utiliser est déterminée par X, comme pour l'option %b.
+       %D     Remplacé par le nombre de pages du fichier d'entrée ou (ce qui est équivalent) par le numéro de page de la dernière ligne du fichier d'entrée.
+       %E     Remplacé  par  le  nom  de  l'éditeur  (obtenu  à partir de la variable d'environnement VISUAL, ou de EDITOR si VISUAL n'est pas définie). Voyez la discussion sur la fonctionnalité LESSEDIT en
+              dessous.
+       %i     Remplacé par la position du fichier courant dans la liste des fichiers d'entrée.
+       %lX    Remplacé par le numéro de ligne d'une ligne du fichier d'entrée. La ligne à utiliser est déterminée par X, comme pour l'option %b.
+       %L     Remplacé par le numéro de ligne de la dernière ligne du fichier d'entrée.
+       %m     Remplacé par le nombre de fichiers d'entrée.
+       %PX    Remplacé par le pourcentage du fichier courant où l'on se situe, basé sur les numéros de ligne. La liste utilisée est déterminée par X comme pour l'option %b.
+       %t     Supprime toutes les espaces terminales. Utilisé habituellement à la fin de la chaîne de caractères, mais peut apparaître n'importe où.
+       Le format de la chaîne de caractères d'invite peut être modifié en fonction de certaines conditions. Un ? suivi d'un caractère agit comme un « IF » : en fonction du caractère suivant,  une  condition
+       est  évaluée.  Si la condition est vraie, tous les caractères suivant le ? et le caractère de condition, jusqu'à un point, sont inclus dans l'invite. Si la condition est fausse, de tels caractères ne
+       sont pas inclus. Un « : » apparaissant entre le ? et le . peut être utilisé pour établir un « ELSE » : tous les caractères situés entre le deux-points et le point sont inclus dans la chaîne  de  car‐
+       actères si et seulement si la condition IF est fausse. Les caractères de condition (qui suivent un point d'interrogation) peuvent être :
+       ?a     Vrai si des caractères ont déjà été inclus dans l'invite.
+       ?bX    Vrai si le décalage en octets de la ligne spécifiée est connu.
+       ?dX    Vrai si le numéro de page de la ligne spécifiée est connu.
+       ?f     Vrai s'il y a un nom de fichier d'entrée (c.-à-d. que l'entrée ne provient pas d'un tube).
+       ?lX    Vrai si le numéro de ligne de la ligne spécifiée est connu.
+       ?L     Vrai si le numéro de ligne de la dernière ligne du fichier est connu.
+       ?pX    Vrai si le pourcentage de progression dans le fichier d'entrée courant, basé sur les décalages en octets, est connu.
+       ?PX    Vrai si le pourcentage de progression dans le fichier d'entrée courant, basé sur les numéros de ligne, est connu.
+       ?x     Vrai s'il y a un fichier d'entrée suivant (c.-à-d. si le fichier d'entrée courant n'est pas le dernier).
+       Tout  caractère  autre  que  les  caractères  spéciaux  (?,  :, ., % et \), font partie en tant que tels de l'invite. Tout caractère spécial peut être inclus littéralement dans l'invite en le faisant
+       précéder par une barre oblique inverse (\).
+       Cette invite affiche le nom du fichier s'il est connu, ou la chaîne de caractères « Entrée standard » sinon.
+       Cette invite affiche le nom du fichier s'il est connu, suivi du numéro de ligne s'il est connu, du pourcentage sinon, ou encore du décalage en octets. Si aucun n'est  connu,  un  tiret  est  affiché.
+       Notez la façon dont chaque ? possède un point correspondant, et la manière dont le % après le %pt est inclus littéralement en le marquant d'un caractère d'échappement (\).
+       ?n?f%f .?m(fichier %i de %m) ..?e(FIN) ?x- Suivant\: %x..%t
+       Cela affiche le nom du fichier si c'est la première invite d'un fichier, suivi par le message « fichier N de N » s'il y a plus d'un fichier d'entrée. Ensuite, si l'on se situe à la fin du fichier, la
+       chaîne de caractères « (FIN) » est affichée, suivie par le nom du fichier suivant, s'il y en a un. Finalement, toutes les espaces terminales sont tronquées. C'est l'invite par défaut.  Pour  informa‐
+       tion, voici les valeurs par défaut (NdT : dans la localisation anglaise) pour les deux autres invites (-m et -M respectivement). Elles ne sont divisées ici sur deux lignes que pour améliorer la lisi‐
+       Et voici le message par défaut produit par la commande « = » :
+       Les fonctionnalités de développement de l'invite sont également utilisées dans un autre but : si une variable d'environnement LESSEDIT est définie, elle est utilisée en tant que commande  à  exécuter
+       quand la commande v est invoquée. La chaîne de caractères LESSEDIT est développée de la même façon que les chaînes de caractères d'invite. La valeur par défaut pour LESSEDIT est :
+       Notez  que  cela  se développe en : nom de l'éditeur, un « + », le numéro de ligne et le nom du fichier. Si votre éditeur n'accepte pas la syntaxe « +numéro-de-ligne », ou comporte des différences au
+       niveau de la syntaxe d'invocation, la variable LESSEDIT peut être changée pour modifier ce comportement par défaut.
+       Quand la variable d'environnement LESSSECURE vaut 1, less s'exécute dans un mode « sécurisé ». Cela signifie que les fonctionnalités suivantes sont désactivées :
+              !      la commande shell
+              |      la commande de tube
+              :e     la commande d'examen
+              v      la commande d'édition
+              -k     l'utilisation des fichiers de touches de less
+              -t     l'utilisation de fichiers de marques
+                     les méta-caractères dans les noms de fichier, comme *
+                     le complètement des noms de fichiers (TAB, ^L)
+       less peut également être compilé pour toujours s'exécuter dans le mode « sécurisé ».
+       Les variables d'environnement peuvent être spécifiées soit dans l'environnement système comme c'est le cas habituellement, soit dans un fichier lesskey(1).   Si  des  variables  d'environnement  sont
+              Spécifier le nombre de colonnes de l'écran. A priorité sur le nombre de colonnes spécifié par la variable TERM. (Mais si vous utilisez un  système  de  fenêtrage  qui  supporte  TIOCGWINSZ  ou
+              WIOCGETD, l'idée qu'il se fait de la taille de l'écran a priorité sur les variables d'environnement LINES et COLUMNS.)
+       EDITOR Le nom de l'éditeur (utilisé par la commande v).
+       HOME   Le nom du répertoire personnel de l'utilisateur (utilisé pour trouver un fichiers lesskey sur les systèmes Unix et OS/2).
+              La  concaténation des variables d'environnement HOMEDRIVE et HOMEPATH est le nom du répertoire personnel de l'utilisateur si la variable HOME n'est pas définie (uniquement dans la version Win‐
+       INIT   Le nom du répertoire d'initialisation de l'utilisateur (utilisé pour trouver un fichiers lesskey sur les systèmes OS/2).
+       LANG   Langue pour la détermination du jeu de caractères.
+              Langue pour la détermination du jeu de caractères.
+              Caractères supposés terminer une séquence d'échappement de couleur ANSI (« m » par défaut).
+              Format d'affichage des caractères non affichables, et non de contrôle.
+              Définit un jeu de caractères.
+              Sélectionne un jeu de caractères prédéfini.
+              Ligne de commandes pour invoquer le postprocesseur d'entrée (optionnel).
+              Nom du programme d'écho de less (par défaut « lessecho »). Le programme lessecho est utile pour développer les méta-caractères, comme * et ? dans les noms de fichiers sur les systèmes Unix.
+              Chaîne de caractères de prototype d'éditeur (utilisée par la commande v).  Voyez la discussion sur les INVITES.
+              Nom de la commande utilisée par l'option -t pour trouver les marques globales. Devrait normalement valoir « global » si votre système dispose de la  commande  global(1).   Si  elle  n'est  pas
+              Liste des caractères qui sont considérés comme des « méta-caractères » par le shell.
+              Préfixe  que  less  va  ajouter avant chaque méta-caractère dans une commande envoyée au shell. Si LESSMETAESCAPE est une chaîne vide, les commandes contenant des méta-caractères ne seront pas
+              Ligne de commandes pour invoquer le préprocesseur d'entrée (optionnel).
+              Lancer less dans un mode « sécurisé ». Voyez la discussion sur la SÉCURITÉ.
+              La chaîne de caractères à concaténer au nom du répertoire lors du complètement des noms de fichiers.
+       LINES  Spécifier le nombre de lignes de l'écran. A priorité sur le nombre de lignes spécifié par la variable TERM. (Mais si vous utilisez un système de fenêtrage qui supporte TIOCGWINSZ ou  WIOCGETD,
+              l'idée qu'il se fait de la taille de l'écran a priorité sur les variables d'environnement LINES et COLUMNS.)
+       PATH   Chemin de recherche de l'utilisateur (utilisé pour trouver un fichier lesskey sur les systèmes MS-DOS et OS/2).
+       SHELL  Le shell utilisé pour la commande « ! », ainsi que pour développer les noms de fichiers.
+       TERM   Le type de terminal sur lequel less tourne.
+       VISUAL Le nom de l'éditeur (utilisé par la commande v).
+       La commande « = » et les invites (sauf si elles sont modifiées par -P) rapportent le numéro des lignes situées en haut et en bas de l'écran, mais les octets et le pourcentage de la ligne située juste
+       après celle du bas de l'écran.
+       Si la commande :e est utilisée pour nommer plus d'un fichier, et qu'un des fichiers nommés a déjà été visualisé, les nouveaux fichiers peuvent être entrés dans la liste dans un ordre inattendu.
+       Sur certains terminaux plus anciens (appelés « magic cookie »), la mise en évidence de la recherche générera un affichage erroné. Sur de tels terminaux, la mise en évidence de la recherche est désac‐
+       tivée par défaut pour éviter des problèmes éventuels.
+       Dans  certains  cas,  quand  la  mise  en  évidence  de la recherche est activée et qu'un motif de recherche commence par un « ^ », plus de texte que la chaîne de caractères reconnue peut être mis en
+       évidence. (Ce problème ne se produit pas quand less est compilé en utilisant le paquetage d'expressions rationnelles POSIX.)
+       Lors de la visualisation de texte contenant des séquences d'échappement de couleur ANSI tout en utilisant l'option -R, la recherche ne trouvera pas  de  texte  contenant  une  séquence  d'échappement
+       imbriquée. De plus, la mise en évidence de la recherche peut modifier la couleur d'une partie du texte qui suit le texte mis en évidence.
+       Sur certains systèmes, setlocale suppose que les caractères ASCII situés entre 0 et 31 sont des caractères de contrôle plutôt que des caractères binaires. Cela pousse less à traiter certains fichiers
+       binaires comme s'ils étaient des fichiers ordinaires non binaires. Pour contourner ce problème, fixez la valeur de la variable d'environnement LESSCHARSET à « ascii » (ou n'importe quel jeu  de  car‐
+       Voyez http://www.greenwoodsoftware.com/less pour obtenir la dernière liste des bogues connus de cette version de less.
+       Copyright (C) 2002  Mark Nudelman
+       less  fait partie du projet GNU et est un logiciel libre. Vous pouvez le redistribuer et/ou le modifier sous les termes de (1) la GNU General Public License comme publiée par la Free Software Founda‐
+       tion ou (2) la Less License. Voyez le fichier README dans la distribution de less pour plus de détails concernant la redistribution. Vous devriez avoir reçu une copie de la GNU General Public License
+       en  même  temps que les sources de less ; voyez le fichier COPYING. Si ce n'est pas le cas, écrivez à la Free Software Foundation, 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. Vous devriez
+       également avoir reçu une copie de la Less License ; voyez le fichier LICENSE.
+       less est distribué dans l'espoir qu'il soit utile, mais SANS AUCUNE GARANTIE ; sans même la garantie implicite de VALEUR MARCHANDE ou de CONVENANCE À UN USAGE PARTICULIER. Voyez la GNU General Public
+       License pour plus de détails.
+       Mark Nudelman <markn@greenwoodsoftware.com>
+       Envoyez les rapports de bogues ou les commentaires à l'adresse ci-dessus ou à bug-less@gnu.org.
+       Pour plus d'informations, voyez la page de less sur http://www.greenwoodsoftware.com/less.
+       Frédéric Delanoy <delanoy_f at yahoo.com>, 2003.
+Archivage                                                                                           0000644 0000000 0000000 00000050000 13301506674 011370  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                   Archive/                                                                                            0000755 0000000 0000000 00000000000 13301505460 011132  5                                                                                                    ustar   root                            root                                                                                                                                                                                                                   Archive/Fichier1                                                                                    0000644 0000000 0000000 00000003307 13301505106 012507  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                                 Certains caractères ont une signification spéciale quand ils sont situés au début d'un motif ; ils modifient le type de recherche au lieu de faire partie du motif :
+              Certains caractères ont une signification spéciale, comme pour la commande « / » :
+       ESC-n  Répéter la recherche précédente en traversant les frontières des fichiers.  L'effet est identique à la modification de la recherche précédente par *.
+              primer sa signification en tapant p.ex. « -\? ».)
+              peut entraîner une grande consommation mémoire. L'option -B désactive cette allocation automatique afin que seuls 64 Ko (ou la quantité spécifiée avec l'option  -b)  soient  utilisés  pour  le
+              uniquement le nom du fichier journal. La commande « s » est équivalente à la spécification de l'option -o depuis less.
+              L'option -p sur la ligne de commandes est équivalente à la spécification de +/motif, c.-à-d. qu'elle indique à less de débuter à la première occurrence de motif dans le fichier.
+              MS-DOS, un « \ » est concaténé.)  La variable d'environnement LESSSEPARATOR peut être utilisée pour spécifier un caractère différent à ajouter à la fin d'un nom de répertoire.
+       niveau de la syntaxe d'invocation, la variable LESSEDIT peut être changée pour modifier ce comportement par défaut.
+              La  concaténation des variables d'environnement HOMEDRIVE et HOMEPATH est le nom du répertoire personnel de l'utilisateur si la variable HOME n'est pas définie (uniquement dans la version Win‐
+              La chaîne de caractères à concaténer au nom du répertoire lors du complètement des noms de fichiers.
+                                                                                                                                                                                                                                                                                                                         Archive/Fichier2                                                                                    0000644 0000000 0000000 00000023517 13301505134 012516  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                          (Voyez la section OPTIONS pour savoir comment obtenir une syntaxe d'options alternative aux noms d'options longs.)
+       F      Défiler  en  avant,  et toujours essayer de lire même lorsque la fin de fichier a été atteinte. Normalement, cette commande ne devrait être utilisée que lorsque l'on se trouve déjà à la fin du
+       ESC-u  Changer l'état de mise en évidence lors d'une recherche. Désactive la mise en évidence des chaînes de caractères correspondant au motif de recherche courant. Si la mise en  évidence  est  déjà
+              c'est possible, la longueur du fichier, son nombre de lignes et le pourcentage du fichier déjà visualisé sont également affichés.
+       --     Comme  la commande « - », mais utilise un nom d'option long (voyez OPTIONS plus bas) plutôt qu'une simple lettre d'option. Vous devez appuyer sur ENTRÉE après avoir tapé le nom de l'option. Un
+       --+    Comme la commande « -+ », mais prend un nom d'option long plutôt qu'une lettre d'option unique.
+       --!    Comme la commande « -! », mais prend un nom d'option long plutôt qu'une lettre d'option unique.
+       __     (Double  caractère  de  soulignement.)  Comme  la commande « _ », mais prend un nom d'option long plutôt qu'une lettre d'option unique. Vous devez appuyer sur ENTRÉE après avoir tapé le nom de
+       La  plupart des options peuvent être données dans deux formes différentes : soit un tiret suivi par une lettre unique, soit deux tirets suivis par un nom d'option long. Un nom d'option long peut être
+       --qui. Certains noms d'options longs sont en majuscule, comme --QUIT-AT-EOF, pour pouvoir le distinguer de --quit-at-eof. De tels noms d'options ne doivent avoir obligatoirement en majuscule que leur
+              Cette  option  affiche  un  résumé des commandes acceptées par less (comme la commande h). (Selon la façon dont votre shell interprète le point d'interrogation, il peut être nécessaire de sup‐
+              Par  défaut,  quand  des données sont lues à partir d'un tube, les tampons sont alloués automatiquement quand c'est nécessaire. Si une grande quantité de données est lue à partie du tube, cela
+              peut entraîner une grande consommation mémoire. L'option -B désactive cette allocation automatique afin que seuls 64 Ko (ou la quantité spécifiée avec l'option  -b)  soient  utilisés  pour  le
+       -Dxcouleur ou --color=xcouleur
+              Spécifie  un  nombre maximal de lignes lors d'un défilement arrière. S'il est nécessaire de défiler en arrière de plus de n lignes, l'écran est repeint vers l'avant à la place. (Si le terminal
+              apparaît dans le motif. En d'autres termes, si un motif contient des lettres majuscules, alors la recherche n'ignorera pas la casse.
+              Affiche  une  colonne de statut sur le bord gauche de l'écran. La colonne de statut affiche les lignes qui convenaient à la recherche courante. Elle est également utilisée si l'option -w ou -W
+              est employée.
+       -m ou --long-prompt
+       -onom-fichier ou --log-file=nom-fichier
+              Indique à less de copier son entrée dans le fichier nom-fichier pendant la lecture. Cela ne s'applique que lorsque le fichier d'entrée est un tube, et pas quand il est un fichier ordinaire. Si
+              Si aucun fichier journal (logfile) n'a été spécifié, les options -o et -O peuvent être utilisées à partir de less pour spécifier un fichier journal. Sans nom  de  fichier,  elles  rapporteront
+              défaut  par  cette chaîne de caractères. -Pm modifie l'invite moyenne (-m). -PM modifie l'invite longue (-M). -Ph modifie l'invite de l'écran d'aide. -P= modifie le message affiché par la com‐
+              dont l'écran répond à chaque type de caractère de contrôle). Différents problèmes d'affichage peuvent donc survenir, comme des longues lignes coupées aux mauvais endroits.
+              Convertir les lignes blanches consécutives en une seule ligne blanche. C'est utile lors de la visualisation d'une sortie nroff.
+       -S ou --chop-long-lines
+              Couper  les lignes plus grandes que la largeur de l'écran au lieu de les « plier », c.-à-d. que le reste d'une longue ligne est simplement supprimé. Le comportement par défaut est de plier les
+              longues lignes, c.-à-d. d'afficher le reste de la ligne sur la ligne suivante.
+              LESSGLOBALTAGS est définie, elle indique le nom  d'une  commande  compatible  avec  global(1),  et  cette  commande  est  exécutée  pour  trouver  la  marque.  (Voyez  http://www.gnu.org/soft‐
+              ware/global/global.html).  L'option  -t  peut  également être spécifiée depuis less (en utilisant la commande « - ») comme un moyen d'examiner un nouveau fichier. La commande « :t » équivaut à
+              ment. La ligne entière est mise en évidence, à moins que l'option -J ne soit utilisée, auquel cas seule la colonne de statut est mise en évidence.
+       Un  fichier  de  touches de less global peut également être créé pour fournir des liaisons de touches. Si une touche est définie à la fois dans un fichier lesskey local et dans le fichier global, les
+       liaisons de touches du fichier local ont priorité sur celles du fichier global. Si la variable d'environnement LESSKEY_SYSTEM est définie, less l'utilisera comme nom du fichier lesskey global. Sinon,
+       less  recherche  le  fichier  global  dans  un  endroit standard. Sur les systèmes Unix, ce fichier est /usr/local/etc/sysless. (Néanmoins, si less a été construit avec un répertoire de configuration
+       système différent de /usr/local/etc, ce répertoire sera celui où le fichier sysless est trouvé.)  Sur les systèmes MS-DOS et Windows, le fichier lesskey global  est  c:\_sysless ;  sur  les  systèmes
+       lessclose.sh :
+       Pour  utiliser ces scripts, placez-les à un endroit où ils peuvent être exécutés, et spécifiez LESSOPEN="lessopen.sh %s" et LESSCLOSE="lessclose.sh %s %s". Des scripts LESSOPEN et LESSCLOSE plus com‐
+       nom d'un fichier de remplacement sur sa sortie standard, y écrit plutôt son contenu.  Si le tube d'entrée n'écrit aucun caractère sur sa sortie standard, alors il n'y a pas de fichier de remplacement
+              Sélectionne  un jeu de caractères EBCDIC utilisé par les Services Unix de OS/390. C'est l'analogue EBCDIC de latin1. Vous obtenez des résultats similaires en spécifiant LESSCHARSET=IBM-1047 ou
+       Si ni LESSCHARSET ni LESSCHARDEF n'est définie, mais que la chaîne « UTF-8 » est trouvée dans la variable d'environnement LC_ALL, LC_CTYPE ou LANG, alors le jeu de caractères par défaut est utf-8.
+       Si cette chaîne n'est pas trouvée, mais que votre système supporte l'interface setlocale, less l'utilisera pour déterminer le jeu de caractères. setlocale est  contrôlé  en  définissant  la  variable
+       Finalement, si l'interface setlocale n'est pas non plus disponible, le jeu de caractères par défaut est latin1.
+       Un signe pour-cent (%) suivi d'un caractère est développé en fonction de la valeur de ce caractère :
+              caractère  est  un  « t »,  le décalage en octets de la ligne située en haut de l'écran est employé, un « m » signifie l'utilisation de la ligne du milieu, un « b » signifie la ligne du bas de
+       %c     Remplacé par le numéro de colonne du texte apparaissant sur la première colonne de l'écran.
+       tion, voici les valeurs par défaut (NdT : dans la localisation anglaise) pour les deux autres invites (-m et -M respectivement). Elles ne sont divisées ici sur deux lignes que pour améliorer la lisi‐
+       Les fonctionnalités de développement de l'invite sont également utilisées dans un autre but : si une variable d'environnement LESSEDIT est définie, elle est utilisée en tant que commande  à  exécuter
+       quand la commande v est invoquée. La chaîne de caractères LESSEDIT est développée de la même façon que les chaînes de caractères d'invite. La valeur par défaut pour LESSEDIT est :
+       Notez  que  cela  se développe en : nom de l'éditeur, un « + », le numéro de ligne et le nom du fichier. Si votre éditeur n'accepte pas la syntaxe « +numéro-de-ligne », ou comporte des différences au
+       définies à plus d'un endroit, les variables définies dans un fichier lesskey local ont priorité sur les variables définies dans l'environnement système, qui ont elles-mêmes priorité sur les variables
+       définies dans le fichier lesskey global.
+              Spécifier le nombre de colonnes de l'écran. A priorité sur le nombre de colonnes spécifié par la variable TERM. (Mais si vous utilisez un  système  de  fenêtrage  qui  supporte  TIOCGWINSZ  ou
+              Nom du programme d'écho de less (par défaut « lessecho »). Le programme lessecho est utile pour développer les méta-caractères, comme * et ? dans les noms de fichiers sur les systèmes Unix.
+              Nom de la commande utilisée par l'option -t pour trouver les marques globales. Devrait normalement valoir « global » si votre système dispose de la  commande  global(1).   Si  elle  n'est  pas
+              définie, les marques globales ne sont pas utilisées.
+              Nom du fichier lesskey(1) global par défaut.
+              La chaîne de caractères à concaténer au nom du répertoire lors du complètement des noms de fichiers.
+       SHELL  Le shell utilisé pour la commande « ! », ainsi que pour développer les noms de fichiers.
+       Sur certains systèmes, setlocale suppose que les caractères ASCII situés entre 0 et 31 sont des caractères de contrôle plutôt que des caractères binaires. Cela pousse less à traiter certains fichiers
+       less  fait partie du projet GNU et est un logiciel libre. Vous pouvez le redistribuer et/ou le modifier sous les termes de (1) la GNU General Public License comme publiée par la Free Software Founda‐
+                                                                                                                                                                                 Archive/Fichier3                                                                                    0000644 0000000 0000000 00000006133 13301505154 012514  0                                                                                                    ustar   root                            root                                                                                                                                                                                                                          z      Comme ESPACE, mais N devient la nouvelle taille de fenêtre s'il est spécifié.
+       w      Comme ESC-v, mais N devient la nouvelle taille de fenêtre s'il est spécifié.
+       ESC-^F Suivi  de  deux  caractères,  se comporte comme {, mais utilise ces deux caractères comme crochets d'ouverture et de fermeture respectivement. Par exemple, « ESC ^F < > » pourrait être utilisé
+       ESC-^B Suivi de deux caractères, se comporte comme }, mais utilise ces deux caractères comme crochets d'ouverture et de fermeture respectivement. Par exemple,  « ESC ^B < > »  pourrait  être  utilisé
+              ^R     Ne pas interpréter les méta-caractères des expressions rationnelles, c.-à-d. effectuer une simple comparaison textuelle.
+       n      Répéter la recherche précédente pour trouver la N-ième ligne contenant le dernier motif. Si la recherche précédente a été modifiée par ^N, la recherche est effectuée  pour  trouver  la  N-ième
+              recherche précédente a été modifiée par ^R, la recherche est effectuée sans utiliser d'expressions rationnelles. Il n'y a aucun effet si la recherche précédente a été modifiée par ^F ou ^K.
+       ESC-n  Répéter la recherche précédente en traversant les frontières des fichiers.  L'effet est identique à la modification de la recherche précédente par *.
+              du fichier entier doit être entièrement enfermé dans des guillemets (voyez également l'option -").
+       -bn ou --buffers=n
+       -B ou --auto-buffers
+              Rafraîchir l'écran du haut vers le bas. Par défaut, les rafraîchissements sont effectués de bas en haut.
+              Fixer la taille de la fenêtre de défilement par défaut à n lignes (un écran par défaut). Les commandes z et w peuvent également être utilisées pour modifier la taille de fenêtre. Le « z » peut
+              lignes, -z-4 fixe la taille de la fenêtre de défilement à 20 lignes. Si l'écran est redimensionné à 40 lignes, la taille de la fenêtre de défilement sera automatiquement ajustée à 36 lignes.
+              guillemets. Suivi par deux caractères, cela remplace le caractère de protection d'ouverture par le premier caractère, et le caractère de protection de fermeture par  le  second.  Les  noms  de
+              fichiers  contenant des espaces doivent être précédés par le caractère de protection d'ouverture, et être suivis par le caractère de protection de fermeture.  Notez que même après que les car‐
+       Quand less ferme un fichier ouvert de cette façon, il appelle un autre programme, appelé le postprocesseur d'entrée, qui peut effectuer n'importe quelle action de nettoyage (comme  p.ex.  effacer  le
+              Spécifier le nombre de colonnes de l'écran. A priorité sur le nombre de colonnes spécifié par la variable TERM. (Mais si vous utilisez un  système  de  fenêtrage  qui  supporte  TIOCGWINSZ  ou
+       LINES  Spécifier le nombre de lignes de l'écran. A priorité sur le nombre de lignes spécifié par la variable TERM. (Mais si vous utilisez un système de fenêtrage qui supporte TIOCGWINSZ ou  WIOCGETD,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
